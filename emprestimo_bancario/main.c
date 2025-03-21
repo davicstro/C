@@ -1,81 +1,70 @@
 #include <stdio.h>
 
 int main() {
-    
-    float salarioMensal, dividas, taxaEndividamento, limiteParcela, valorEmprestimo, parcela;
-    int tempoEmprego, numParcelas, maxParcela;
-    
-    printf("\n>>> Sistema de Liberacao de Emprestimos <<<\n");
-    
-    // Entrada de dados
-    printf("Digite seu salario mensal: ");
-    scanf("%f", &salarioMensal);
-    
-    if (salarioMensal <= 0) {
-        printf("Erro! O salario deve ser maior que zero.\n");
-        return 1;
-    }
-    
-    printf("Digite o total de suas dividas: ");
-    scanf("%f", &dividas);
-    
-    printf("Digite seu tempo de emprego (anos): ");
-    scanf("%d", &tempoEmprego);
-    
-    // Cálculo da taxa de endividamento
-    taxaEndividamento = dividas / salarioMensal;
-    
-    // Definição do limite de parcelas baseado no tempo de emprego
-    if (tempoEmprego < 1)
-        maxParcela = 12;
-    else if (tempoEmprego <= 3)
-        maxParcela = 24;
-    else
-        maxParcela = 60;
-        
-    // Verificação da taxa de endividamento
-    if (taxaEndividamento > 0.5) {
-        printf("\nEmprestimo Recusado!\nSua taxa de endividamento e: %.2f%% (esta maior que o limite de 50%%)\n", taxaEndividamento * 100);
+    // 1. Declara��o das vari�veis (2,0 pontos)
+    float salario_mensal, total_dividas, valor_emprestimo, parcela_mensal;
+    float taxa_endividamento, percentual_parcela;
+    int tempo_emprego_anos, numero_parcelas;
+    const float LIMITE_PERCENTUAL_PARCELA = 0.30; // 30% do sal�rio como limite m�ximo da parcela
+
+    // 2. Entrada de Dados (2,0 pontos)
+    printf("Bem-vindo ao Sistema de Liberacao de Emprestimos!\n");
+    printf("Digite seu salario mensal (R$): ");
+    scanf("%f", &salario_mensal);
+
+    printf("Digite o total de suas dividas atuais (R$): ");
+    scanf("%f", &total_dividas);
+
+    printf("Digite o tempo de estabilidade no emprego (em anos): ");
+    scanf("%d", &tempo_emprego_anos);
+
+    printf("Digite o valor do emprestimo desejado (R$): ");
+    scanf("%f", &valor_emprestimo);
+
+    printf("Digite o numero de parcelas desejado: ");
+    scanf("%d", &numero_parcelas);
+
+    // 3. C�lculo da Taxa de Endividamento (2,0 pontos)
+    taxa_endividamento = (total_dividas / salario_mensal) * 100;
+    if (taxa_endividamento > 50) {
+        printf("\nEmprestimo RECUSADO!\n");
+        printf("Taxa de endividamento (%.2f%%) superior ao limite de 50%%\n", taxa_endividamento);
         return 0;
     }
-    
-    // Definição do limite da parcela (30% do salário)
-    limiteParcela = salarioMensal * 0.30;
-    
-    // Entrada do empréstimo e número de parcelas
-    printf("Digite o valor do emprestimo desejado: ");
-    scanf("%f", &valorEmprestimo);
-    
-    if (valorEmprestimo <= 0) {
-        printf("Erro! O valor do emprestimo deve ser maior que zero.\n");
-        return 1;
-    }
-    
-    printf("Digite o numero de parcelas desejadas: ");
-    scanf("%d", &numParcelas);
-    
-    if (numParcelas <= 0) {
-        printf("Erro! O numero de parcelas deve ser maior que zero.\n");
-        return 1;
-    }
-    
-    // Cálculo do valor da parcela
-    parcela = valorEmprestimo / numParcelas;
-    
-    // Verificações finais
-    if (numParcelas > maxParcela) {
-        printf("\nErro! O numero maximo de parcelas permitido e: %d.\n", maxParcela);
+
+    // 4. Limita��o do Percentual do Empr�stimo (2,0 pontos)
+    parcela_mensal = valor_emprestimo / numero_parcelas;
+    percentual_parcela = parcela_mensal / salario_mensal;
+
+    if (percentual_parcela > LIMITE_PERCENTUAL_PARCELA) {
+        printf("\nEmprestimo RECUSADO!\n");
+        printf("Parcela mensal (R$ %.2f) excede 30%% do salario (R$ %.2f)\n",
+               parcela_mensal, salario_mensal * LIMITE_PERCENTUAL_PARCELA);
         return 0;
     }
-    
-    if (parcela > limiteParcela) {
-        printf("\nErro! O valor da parcela (%.2f) excede o limite permitido (%.2f).\n", parcela, limiteParcela);
+
+    // 5. Tempo de Estabilidade no Emprego (2,0 pontos)
+    int max_parcelas;
+    if (tempo_emprego_anos < 1) {
+        max_parcelas = 12;
+    } else if (tempo_emprego_anos <= 3) {
+        max_parcelas = 24;
+    } else {
+        max_parcelas = 60;
+    }
+
+    if (numero_parcelas > max_parcelas) {
+        printf("\nEmprestimo RECUSADO!\n");
+        printf("Numero de parcelas (%d) excede o maximo permitido (%d) para seu tempo de emprego\n",
+               numero_parcelas, max_parcelas);
         return 0;
     }
-    
-    // Aprovação do empréstimo
-    printf("\nEmprestimo aprovado!\n");
-    printf("Valor: %.2f\nParcelas: %d\nValor da parcela: %.2f\n", valorEmprestimo, numParcelas, parcela);
-    
+
+    // Se chegou at� aqui, o empr�stimo � aprovado
+    printf("\nEmprestimo APROVADO!\n");
+    printf("Taxa de endividamento: %.2f%%\n", taxa_endividamento);
+    printf("Valor do emprestimo: R$ %.2f\n", valor_emprestimo);
+    printf("Parcela mensal: R$ %.2f (%d parcelas)\n", parcela_mensal, numero_parcelas);
+
     return 0;
 }
