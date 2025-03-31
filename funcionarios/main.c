@@ -1,7 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <locale.h>
-#include <wchar.h>
 
 
 #define NUM_FUNCIONARIOS 10
@@ -15,9 +13,9 @@ typedef struct
     int sexo;    // 1 -> Feminino, 2 -> Masculino
 } Funcionario;
 
-int main()
+int main(void)
 {
-    setlocale(LC_ALL, "en_US.utf8");
+    setlocale(LC_ALL, "portuguese-brazilian");
 
     Funcionario funcionarios[NUM_FUNCIONARIOS];
 
