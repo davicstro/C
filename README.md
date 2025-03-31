@@ -1,2 +1,2 @@
-# Repositorio de codigos 
-> scripts de exercicios da faculdade 
+# Repositório de códigos 
+> scripts de exercícios da faculdade 
