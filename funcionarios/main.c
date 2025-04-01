@@ -15,7 +15,7 @@ typedef struct
 
 int main(void)
 {
-    setlocale(LC_ALL, "portuguese-brazilian");
+    setlocale(LC_ALL,"");
 
     Funcionario funcionarios[NUM_FUNCIONARIOS];
 
